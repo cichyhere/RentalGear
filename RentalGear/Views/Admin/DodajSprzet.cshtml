@@ -1,0 +1,110 @@
+@model EquipmentFormVM
+@{ ViewData["Title"] = "Dodaj sprzęt"; }
+
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb" style="--bs-breadcrumb-divider-color:var(--text-secondary)">
+        <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-action="Sprzet">Sprzęt</a></li>
+        <li class="breadcrumb-item active">Dodaj</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header" style="background:var(--accent-blue);color:#fff">
+                <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Dodaj nowy sprzęt</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="DodajSprzet" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label asp-for="Nazwa" class="form-label"></label>
+                            <input asp-for="Nazwa" class="form-control">
+                            <span asp-validation-for="Nazwa" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="KategoriaId" class="form-label"></label>
+                            <select asp-for="KategoriaId" asp-items="Model.Kategorie" class="form-select">
+                                <option value="">-- Wybierz --</option>
+                            </select>
+                            <span asp-validation-for="KategoriaId" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Producent" class="form-label"></label>
+                            <input asp-for="Producent" class="form-control">
+                            <span asp-validation-for="Producent" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Model" class="form-label"></label>
+                            <input asp-for="Model" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Opis" class="form-label"></label>
+                        <textarea asp-for="Opis" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="CenaDzien" class="form-label"></label>
+                            <div class="input-group">
+                                <input asp-for="CenaDzien" type="number" step="0.01" class="form-control">
+                                <span class="input-group-text">zł</span>
+                            </div>
+                            <span asp-validation-for="CenaDzien" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="Kaucja" class="form-label"></label>
+                            <div class="input-group">
+                                <input asp-for="Kaucja" type="number" step="0.01" class="form-control">
+                                <span class="input-group-text">zł</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="IloscCalkowita" class="form-label"></label>
+                            <input asp-for="IloscCalkowita" type="number" min="1" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ZdjecieUrl" class="form-label"></label>
+                        <input asp-for="ZdjecieUrl" class="form-control" placeholder="https://...">
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input asp-for="Dostepny" class="form-check-input">
+                                <label asp-for="Dostepny" class="form-check-label"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input asp-for="Wyrozniony" class="form-check-input">
+                                <label asp-for="Wyrozniony" class="form-check-label"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input asp-for="Nowosc" class="form-check-input">
+                                <label asp-for="Nowosc" class="form-check-label"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg"><i class="bi bi-plus-circle me-2"></i>Dodaj</button>
+                        <a asp-action="Sprzet" class="btn btn-outline-secondary btn-lg">Anuluj</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+@model AdminDashboardVM
+@{ ViewData["Title"] = "Panel administracyjny"; }
+
+<div class="page-header">
+    <h1 class="page-title"><i class="bi bi-speedometer2 me-2"></i>Panel administracyjny</h1>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card blue">
+            <div class="stat-icon blue"><i class="bi bi-calendar-check"></i></div>
+            <div class="stat-value">@Model.WszystkieWypozyczenia</div>
+            <div class="stat-label">Wszystkie wypożyczenia</div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card orange">
+            <div class="stat-icon orange"><i class="bi bi-clock"></i></div>
+            <div class="stat-value">@Model.Oczekujace</div>
+            <div class="stat-label">Oczekujące</div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card purple">
+            <div class="stat-icon purple"><i class="bi bi-box-seam"></i></div>
+            <div class="stat-value">@Model.WTrakcie</div>
+            <div class="stat-label">W trakcie</div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="stat-card green">
+            <div class="stat-icon green"><i class="bi bi-cash-stack"></i></div>
+            <div class="stat-value">@Model.PrzychodMiesiac.ToString("N0") zł</div>
+            <div class="stat-label">Przychód (miesiąc)</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-clock-history me-2"></i>Oczekujące na potwierdzenie</span>
+                <a asp-action="Zamowienia" asp-route-status="0" class="btn btn-sm btn-outline-primary">Wszystkie</a>
+            </div>
+            @if (Model.OczekujaceWypozyczenia.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead><tr><th>ID</th><th>Klient</th><th>Termin</th><th>Kwota</th><th>Akcje</th></tr></thead>
+                        <tbody>
+                            @foreach (var w in Model.OczekujaceWypozyczenia)
+                            {
+                                <tr>
+                                    <td>#@w.Id</td>
+                                    <td>@w.Uzytkownik?.PelnaNazwa</td>
+                                    <td>@w.DataOd.ToString("dd.MM") - @w.DataDo.ToString("dd.MM.yyyy")</td>
+                                    <td>@w.KosztCalkowity.ToString("N0") zł</td>
+                                    <td>
+                                        <form asp-action="ZmienStatus" method="post" class="d-inline">
+                                            <input type="hidden" name="id" value="@w.Id">
+                                            <input type="hidden" name="status" value="@StatusWypozyczenia.Potwierdzone">
+                                            <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-check"></i></button>
+                                        </form>
+                                        <form asp-action="ZmienStatus" method="post" class="d-inline">
+                                            <input type="hidden" name="id" value="@w.Id">
+                                            <input type="hidden" name="status" value="@StatusWypozyczenia.Odrzucone">
+                                            <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-x"></i></button>
+                                        </form>
+                                        <a asp-action="ZamowienieSzczegoly" asp-route-id="@w.Id" class="btn btn-outline-primary btn-sm"><i class="bi bi-eye"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-check-circle text-success" style="font-size:3rem"></i>
+                    <p class="mt-2 mb-0">Brak oczekujących</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-header"><i class="bi bi-bar-chart me-2"></i>Statystyki</div>
+            <ul class="list-group list-group-flush" style="background:transparent">
+                <li class="list-group-item d-flex justify-content-between" style="background:transparent;border-color:var(--border-color)">
+                    <span><i class="bi bi-camera me-2"></i>Sprzęt</span>
+                    <span class="badge bg-primary rounded-pill">@Model.LiczbaSprzetu</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between" style="background:transparent;border-color:var(--border-color)">
+                    <span><i class="bi bi-grid me-2"></i>Kategorie</span>
+                    <span class="badge bg-primary rounded-pill">@Model.LiczbaKategorii</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between" style="background:transparent;border-color:var(--border-color)">
+                    <span><i class="bi bi-people me-2"></i>Klienci</span>
+                    <span class="badge bg-primary rounded-pill">@Model.LiczbaKlientow</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between" style="background:transparent;border-color:var(--border-color)">
+                    <span><i class="bi bi-cash me-2"></i>Przychód całkowity</span>
+                    <span class="badge bg-success rounded-pill">@Model.PrzychodCalkowity.ToString("N0") zł</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><i class="bi bi-lightning me-2"></i>Szybkie akcje</div>
+            <div class="card-body d-grid gap-2">
+                <a asp-action="Zamowienia" class="btn btn-outline-primary"><i class="bi bi-clipboard-check me-2"></i>Zamówienia</a>
+                <a asp-action="Sprzet" class="btn btn-outline-primary"><i class="bi bi-camera me-2"></i>Sprzęt</a>
+                <a asp-action="DodajSprzet" class="btn btn-outline-success"><i class="bi bi-plus-circle me-2"></i>Dodaj sprzęt</a>
+                <a asp-action="Kalendarz" class="btn btn-outline-info"><i class="bi bi-calendar3 me-2"></i>Kalendarz</a>
+                <a asp-action="Uzytkownicy" class="btn btn-outline-secondary"><i class="bi bi-people me-2"></i>Użytkownicy</a>
+            </div>
+        </div>
+    </div>
+</div>

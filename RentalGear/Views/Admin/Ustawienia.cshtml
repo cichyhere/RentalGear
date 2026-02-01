@@ -1,0 +1,258 @@
+@model UstawieniaSklep
+@{ ViewData["Title"] = "Ustawienia sklepu"; }
+
+<div class="page-header d-flex justify-content-between align-items-center">
+    <h1 class="page-title"><i class="bi bi-gear me-2"></i>Ustawienia sklepu</h1>
+    <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Dashboard</a>
+</div>
+
+<form asp-action="Ustawienia" method="post">
+    <div class="row">
+        <!-- Dane sklepu -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header"><i class="bi bi-shop me-2"></i>Dane sklepu</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="NazwaSklepu" class="form-label"></label>
+                        <input asp-for="NazwaSklepu" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="OpisSklepu" class="form-label"></label>
+                        <textarea asp-for="OpisSklepu" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label asp-for="Adres" class="form-label"></label>
+                            <input asp-for="Adres" class="form-control">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="KodPocztowy" class="form-label"></label>
+                            <input asp-for="KodPocztowy" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Miasto" class="form-label"></label>
+                            <input asp-for="Miasto" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="NIP" class="form-label"></label>
+                            <input asp-for="NIP" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Telefon" class="form-label"></label>
+                            <input asp-for="Telefon" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" type="email">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Godziny otwarcia -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header"><i class="bi bi-clock me-2"></i>Godziny otwarcia</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="GodzinyPonPt" class="form-label"></label>
+                        <input asp-for="GodzinyPonPt" class="form-control" placeholder="np. 9:00 - 18:00">
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="GodzinySobota" class="form-label"></label>
+                        <input asp-for="GodzinySobota" class="form-control" placeholder="np. 10:00 - 14:00">
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="GodzinyNiedziela" class="form-label"></label>
+                        <input asp-for="GodzinyNiedziela" class="form-control" placeholder="np. Zamknięte">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media -->
+            <div class="card mt-4">
+                <div class="card-header"><i class="bi bi-share me-2"></i>Social Media</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="FacebookUrl" class="form-label"></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-facebook"></i></span>
+                            <input asp-for="FacebookUrl" class="form-control" placeholder="https://facebook.com/...">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="InstagramUrl" class="form-label"></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-instagram"></i></span>
+                            <input asp-for="InstagramUrl" class="form-control" placeholder="https://instagram.com/...">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="YouTubeUrl" class="form-label"></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-youtube"></i></span>
+                            <input asp-for="YouTubeUrl" class="form-control" placeholder="https://youtube.com/...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ustawienia wypożyczeń -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header"><i class="bi bi-calendar-check me-2"></i>Ustawienia wypożyczeń</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="MinDniWypozyczenia" class="form-label"></label>
+                            <input asp-for="MinDniWypozyczenia" type="number" min="1" max="30" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="MaxDniWypozyczenia" class="form-label"></label>
+                            <input asp-for="MaxDniWypozyczenia" type="number" min="1" max="365" class="form-control">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="DniWyprzedzenia" class="form-label"></label>
+                        <input asp-for="DniWyprzedzenia" type="number" min="0" max="30" class="form-control">
+                        <small class="text-secondary">Ile dni wcześniej klient musi złożyć zamówienie</small>
+                    </div>
+                    <hr class="border-secondary">
+                    <h6>Rabaty</h6>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="RabatTydzien" class="form-label"></label>
+                            <div class="input-group">
+                                <input asp-for="RabatTydzien" type="number" step="0.1" min="0" max="50" class="form-control">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="RabatMiesiac" class="form-label"></label>
+                            <div class="input-group">
+                                <input asp-for="RabatMiesiac" type="number" step="0.1" min="0" max="70" class="form-control">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kaucja i dostawa -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header"><i class="bi bi-cash me-2"></i>Kaucja</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="DomyslnaKaucjaProcent" class="form-label"></label>
+                            <div class="input-group">
+                                <input asp-for="DomyslnaKaucjaProcent" type="number" step="1" min="0" max="100" class="form-control">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="MinimalnaKaucja" class="form-label"></label>
+                            <div class="input-group">
+                                <input asp-for="MinimalnaKaucja" type="number" step="10" min="0" class="form-control">
+                                <span class="input-group-text">zł</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header"><i class="bi bi-truck me-2"></i>Dostawa</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input asp-for="OferujDostawe" class="form-check-input">
+                            <label asp-for="OferujDostawe" class="form-check-label"></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="KosztDostawy" class="form-label"></label>
+                            <div class="input-group">
+                                <input asp-for="KosztDostawy" type="number" step="5" min="0" class="form-control">
+                                <span class="input-group-text">zł</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="DarmowaDostawaOd" class="form-label"></label>
+                            <div class="input-group">
+                                <input asp-for="DarmowaDostawaOd" type="number" step="50" min="0" class="form-control">
+                                <span class="input-group-text">zł</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Powiadomienia -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header"><i class="bi bi-bell me-2"></i>Powiadomienia</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="EmailPowiadomien" class="form-label"></label>
+                        <input asp-for="EmailPowiadomien" class="form-control" type="email">
+                        <small class="text-secondary">Na ten adres będą wysyłane powiadomienia</small>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input asp-for="PowiadomieniaNoweZamowienia" class="form-check-input">
+                            <label asp-for="PowiadomieniaNoweZamowienia" class="form-check-label"></label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input asp-for="PowiadomieniaAnulowania" class="form-check-input">
+                            <label asp-for="PowiadomieniaAnulowania" class="form-check-label"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Waluta -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header"><i class="bi bi-currency-exchange me-2"></i>Waluta</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Waluta" class="form-label"></label>
+                            <select asp-for="Waluta" class="form-select">
+                                <option value="PLN">PLN - Polski Złoty</option>
+                                <option value="EUR">EUR - Euro</option>
+                                <option value="USD">USD - Dolar</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="SymbolWaluty" class="form-label"></label>
+                            <input asp-for="SymbolWaluty" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <small class="text-secondary">Ostatnia modyfikacja: @Model.DataModyfikacji.ToString("dd.MM.yyyy HH:mm")</small>
+            <button type="submit" class="btn btn-primary btn-lg"><i class="bi bi-save me-2"></i>Zapisz ustawienia</button>
+        </div>
+    </div>
+</form>

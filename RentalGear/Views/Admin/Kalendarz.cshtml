@@ -1,0 +1,61 @@
+@{ ViewData["Title"] = "Kalendarz"; }
+
+<div class="page-header d-flex justify-content-between align-items-center">
+    <h1 class="page-title"><i class="bi bi-calendar3 me-2"></i>Kalendarz wypożyczeń</h1>
+    <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Dashboard</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div id="kalendarz"></div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <span class="badge bg-warning me-2">Oczekujące</span>
+    <span class="badge bg-info me-2">Potwierdzone</span>
+    <span class="badge bg-primary me-2">W trakcie</span>
+    <span class="badge bg-success me-2">Zakończone</span>
+</div>
+
+@section Scripts {
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var cal = new FullCalendar.Calendar(document.getElementById('kalendarz'), {
+        initialView: 'dayGridMonth',
+        locale: 'pl',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,listWeek'
+        },
+        events: function(info, successCallback, failureCallback) {
+            fetch('/Admin/GetAllEvents?start=' + info.startStr + '&end=' + info.endStr)
+                .then(r => r.json())
+                .then(data => successCallback(data))
+                .catch(() => failureCallback());
+        },
+        eventClick: function(info) {
+            if (info.event.url) {
+                window.location.href = info.event.url;
+                info.jsEvent.preventDefault();
+            }
+        },
+        height: 650,
+        themeSystem: 'bootstrap5'
+    });
+    cal.render();
+});
+</script>
+<style>
+    .fc { --fc-border-color: var(--border-color); --fc-page-bg-color: transparent; }
+    .fc-theme-bootstrap5 .fc-scrollgrid { border-color: var(--border-color); }
+    .fc .fc-daygrid-day-number { color: var(--text-primary); }
+    .fc .fc-col-header-cell-cushion { color: var(--text-primary); }
+    .fc-theme-bootstrap5 td, .fc-theme-bootstrap5 th { border-color: var(--border-color); }
+    .fc .fc-button-primary { background: var(--accent-blue); border-color: var(--accent-blue); }
+    .fc .fc-button-primary:hover { background: #79c0ff; border-color: #79c0ff; }
+    .fc .fc-button-primary:disabled { background: var(--bg-tertiary); border-color: var(--border-color); }
+    .fc-day-today { background: var(--bg-tertiary) !important; }
+</style>
+}

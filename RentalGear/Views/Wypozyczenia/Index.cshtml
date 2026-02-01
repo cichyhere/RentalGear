@@ -1,0 +1,81 @@
+@model List<Wypozyczenie>
+@{ ViewData["Title"] = "Moje wypożyczenia"; }
+
+<div class="page-header">
+    <h1 class="page-title"><i class="bi bi-calendar-check me-2"></i>Moje wypożyczenia</h1>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body py-2">
+        <form method="get" class="d-flex gap-2 align-items-center flex-wrap">
+            <span class="text-secondary">Filtruj:</span>
+            <a asp-action="Index" class="btn btn-sm @(ViewBag.Status == null ? "btn-primary" : "btn-outline-secondary")">Wszystkie</a>
+            <a asp-action="Index" asp-route-status="0" class="btn btn-sm @(ViewBag.Status != null && (int)ViewBag.Status == 0 ? "btn-warning" : "btn-outline-warning")">Oczekujące</a>
+            <a asp-action="Index" asp-route-status="1" class="btn btn-sm @(ViewBag.Status != null && (int)ViewBag.Status == 1 ? "btn-info" : "btn-outline-info")">Potwierdzone</a>
+            <a asp-action="Index" asp-route-status="2" class="btn btn-sm @(ViewBag.Status != null && (int)ViewBag.Status == 2 ? "btn-primary" : "btn-outline-primary")">W trakcie</a>
+            <a asp-action="Index" asp-route-status="3" class="btn btn-sm @(ViewBag.Status != null && (int)ViewBag.Status == 3 ? "btn-success" : "btn-outline-success")">Zakończone</a>
+        </form>
+    </div>
+</div>
+
+@if (Model.Any())
+{
+    <div class="row g-4">
+        @foreach (var w in Model)
+        {
+            var badgeClass = w.Status switch
+            {
+                StatusWypozyczenia.Oczekujace => "bg-warning text-dark",
+                StatusWypozyczenia.Potwierdzone => "bg-info",
+                StatusWypozyczenia.WTrakcie => "bg-primary",
+                StatusWypozyczenia.Zakonczone => "bg-success",
+                StatusWypozyczenia.Anulowane => "bg-secondary",
+                StatusWypozyczenia.Odrzucone => "bg-danger",
+                _ => "bg-secondary"
+            };
+            var statusText = w.Status switch
+            {
+                StatusWypozyczenia.Oczekujace => "Oczekujące",
+                StatusWypozyczenia.Potwierdzone => "Potwierdzone",
+                StatusWypozyczenia.WTrakcie => "W trakcie",
+                StatusWypozyczenia.Zakonczone => "Zakończone",
+                StatusWypozyczenia.Anulowane => "Anulowane",
+                StatusWypozyczenia.Odrzucone => "Odrzucone",
+                _ => "?"
+            };
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Zamówienie #@w.Id</span>
+                        <span class="badge @badgeClass">@statusText</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2"><i class="bi bi-calendar me-2"></i>@w.DataOd.ToString("dd.MM.yyyy") - @w.DataDo.ToString("dd.MM.yyyy")</p>
+                        <p class="mb-2"><i class="bi bi-box me-2"></i>@w.Pozycje.Count pozycji</p>
+                        <p class="mb-0"><i class="bi bi-cash me-2"></i><strong class="text-success">@w.KosztCalkowity.ToString("N0") zł</strong></p>
+                    </div>
+                    <div class="card-footer d-flex gap-2">
+                        <a asp-action="Szczegoly" asp-route-id="@w.Id" class="btn btn-outline-primary btn-sm flex-fill">
+                            <i class="bi bi-eye me-1"></i>Szczegóły
+                        </a>
+                        @if (w.Status == StatusWypozyczenia.Oczekujace)
+                        {
+                            <form asp-action="Anuluj" asp-route-id="@w.Id" method="post" onsubmit="return confirm('Anulować?')">
+                                <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="empty-state">
+        <i class="bi bi-inbox"></i>
+        <h4>Brak wypożyczeń</h4>
+        <p>Nie masz jeszcze żadnych wypożyczeń</p>
+        <a asp-controller="Katalog" asp-action="Index" class="btn btn-primary mt-3">Przeglądaj katalog</a>
+    </div>
+}

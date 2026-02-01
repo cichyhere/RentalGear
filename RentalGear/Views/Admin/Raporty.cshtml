@@ -1,0 +1,176 @@
+@{
+    ViewData["Title"] = "Raporty";
+    var przychodMiesiac = (decimal)ViewBag.PrzychodMiesiac;
+    var przychodRok = (decimal)ViewBag.PrzychodRok;
+    var wypozyczeniaWgStatusu = ViewBag.WypozyczeniaWgStatusu as List<dynamic>;
+    var popularnySprzet = ViewBag.PopularnySprzet as List<dynamic>;
+    var wypozyczeniaMiesieczne = ViewBag.WypozyczeniaMiesieczne as List<(string Miesiac, int Liczba, decimal Przychod)>;
+}
+
+<div class="page-header d-flex justify-content-between align-items-center">
+    <h1 class="page-title"><i class="bi bi-graph-up me-2"></i>Raporty</h1>
+    <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Dashboard</a>
+</div>
+
+<!-- Podsumowanie przychodów -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-lg-3">
+        <div class="stat-card green">
+            <div class="stat-icon green"><i class="bi bi-cash-stack"></i></div>
+            <div class="stat-value">@przychodMiesiac.ToString("N0") zł</div>
+            <div class="stat-label">Przychód - ten miesiąc</div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="stat-card blue">
+            <div class="stat-icon blue"><i class="bi bi-graph-up-arrow"></i></div>
+            <div class="stat-value">@przychodRok.ToString("N0") zł</div>
+            <div class="stat-label">Przychód - ten rok</div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="stat-card orange">
+            <div class="stat-icon orange"><i class="bi bi-calendar-check"></i></div>
+            <div class="stat-value">@wypozyczeniaWgStatusu?.Sum(x => (int)x.Liczba)</div>
+            <div class="stat-label">Wszystkie wypożyczenia</div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="stat-card purple">
+            <div class="stat-icon purple"><i class="bi bi-percent"></i></div>
+            @{
+                var zakonczone = wypozyczeniaWgStatusu?.FirstOrDefault(x => (StatusWypozyczenia)x.Status == StatusWypozyczenia.Zakonczone);
+                var wszystkie = wypozyczeniaWgStatusu?.Sum(x => (int)x.Liczba) ?? 1;
+                var procent = zakonczone != null ? ((int)zakonczone.Liczba * 100 / wszystkie) : 0;
+            }
+            <div class="stat-value">@procent%</div>
+            <div class="stat-label">Wskaźnik realizacji</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Wypożyczenia wg statusu -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-pie-chart me-2"></i>Wypożyczenia wg statusu</div>
+            <div class="card-body">
+                @if (wypozyczeniaWgStatusu != null)
+                {
+                    @foreach (var item in wypozyczeniaWgStatusu)
+                    {
+                        var status = (StatusWypozyczenia)item.Status;
+                        var liczba = (int)item.Liczba;
+                        var proc = wszystkie > 0 ? (liczba * 100 / wszystkie) : 0;
+                        var badgeClass = status switch
+                        {
+                            StatusWypozyczenia.Oczekujace => "bg-warning text-dark",
+                            StatusWypozyczenia.Potwierdzone => "bg-info",
+                            StatusWypozyczenia.WTrakcie => "bg-primary",
+                            StatusWypozyczenia.Zakonczone => "bg-success",
+                            StatusWypozyczenia.Anulowane => "bg-secondary",
+                            StatusWypozyczenia.Odrzucone => "bg-danger",
+                            _ => "bg-secondary"
+                        };
+                        var barColor = status switch
+                        {
+                            StatusWypozyczenia.Oczekujace => "var(--accent-orange)",
+                            StatusWypozyczenia.Potwierdzone => "#3b82f6",
+                            StatusWypozyczenia.WTrakcie => "var(--accent-purple)",
+                            StatusWypozyczenia.Zakonczone => "var(--accent-green)",
+                            _ => "var(--text-secondary)"
+                        };
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span><span class="badge @badgeClass me-2">@status</span></span>
+                                <span>@liczba (@proc%)</span>
+                            </div>
+                            <div class="progress" style="height:8px;background:var(--bg-tertiary)">
+                                <div class="progress-bar" style="width:@proc%;background:@barColor"></div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Najpopularniejszy sprzęt -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-trophy me-2"></i>Najpopularniejszy sprzęt</div>
+            <div class="card-body">
+                @if (popularnySprzet != null)
+                {
+                    <table class="table table-sm mb-0">
+                        <thead><tr><th>#</th><th>Sprzęt</th><th class="text-end">Wypożyczeń</th></tr></thead>
+                        <tbody>
+                            @{ var i = 1; }
+                            @foreach (var item in popularnySprzet)
+                            {
+                                var sprzet = item.Sprzet as Sprzet;
+                                var liczba = (int)item.Liczba;
+                                <tr>
+                                    <td>
+                                        @if (i == 1) { <span class="badge bg-warning text-dark">🥇</span> }
+                                        else if (i == 2) { <span class="badge bg-secondary">🥈</span> }
+                                        else if (i == 3) { <span class="badge bg-warning" style="background:#cd7f32!important">🥉</span> }
+                                        else { <span class="text-secondary">@i</span> }
+                                    </td>
+                                    <td>
+                                        <strong>@sprzet?.Producent</strong>
+                                        <br><small class="text-secondary">@sprzet?.Nazwa</small>
+                                    </td>
+                                    <td class="text-end"><span class="badge bg-primary">@liczba</span></td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Wypożyczenia miesięczne -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-bar-chart me-2"></i>Wypożyczenia i przychody - ostatnie 6 miesięcy</div>
+            <div class="card-body">
+                @if (wypozyczeniaMiesieczne != null)
+                {
+                    var maxPrzychod = wypozyczeniaMiesieczne.Max(x => x.Przychod);
+                    maxPrzychod = maxPrzychod > 0 ? maxPrzychod : 1;
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Miesiąc</th>
+                                    <th>Wypożyczeń</th>
+                                    <th>Przychód</th>
+                                    <th style="width:50%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in wypozyczeniaMiesieczne)
+                                {
+                                    var proc = (int)(item.Przychod * 100 / maxPrzychod);
+                                    <tr>
+                                        <td><strong>@item.Miesiac</strong></td>
+                                        <td><span class="badge bg-primary">@item.Liczba</span></td>
+                                        <td class="text-success fw-bold">@item.Przychod.ToString("N0") zł</td>
+                                        <td>
+                                            <div class="progress" style="height:20px;background:var(--bg-tertiary)">
+                                                <div class="progress-bar bg-success" style="width:@proc%"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

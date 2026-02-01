@@ -1,0 +1,68 @@
+@model List<CartItemVM>
+@{ ViewData["Title"] = "Koszyk"; }
+
+<div class="page-header">
+    <h1 class="page-title"><i class="bi bi-cart3 me-2"></i>Koszyk</h1>
+</div>
+
+@if (Model.Any())
+{
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead><tr><th>Sprzęt</th><th>Cena/dzień</th><th>Ilość</th><th></th></tr></thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            @if (!string.IsNullOrEmpty(item.ZdjecieUrl))
+                                            {
+                                                <img src="@item.ZdjecieUrl" style="width:60px;height:40px;object-fit:cover;border-radius:4px">
+                                            }
+                                            <span>@item.Nazwa</span>
+                                        </div>
+                                    </td>
+                                    <td>@item.CenaDzien zł</td>
+                                    <td>
+                                        <form asp-action="Aktualizuj" method="post" class="d-flex gap-2">
+                                            <input type="hidden" name="id" value="@item.SprzetId">
+                                            <input type="number" name="ilosc" value="@item.Ilosc" min="1" max="@item.MaxIlosc" class="form-control form-control-sm" style="width:70px">
+                                            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="bi bi-arrow-repeat"></i></button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form asp-action="Usun" method="post">
+                                            <input type="hidden" name="id" value="@item.SprzetId">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">Podsumowanie</div>
+                <div class="card-body">
+                    <p class="text-secondary">Wybierz daty, aby zobaczyć koszt</p>
+                    <a asp-action="Zamowienie" class="btn btn-primary w-100"><i class="bi bi-arrow-right me-2"></i>Przejdź do zamówienia</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="empty-state">
+        <i class="bi bi-cart-x"></i>
+        <h4>Koszyk jest pusty</h4>
+        <a asp-controller="Katalog" asp-action="Index" class="btn btn-primary mt-3">Przeglądaj katalog</a>
+    </div>
+}

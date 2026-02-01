@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - RentalGear</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <!-- ZALOGOWANY UŻYTKOWNIK - SIDEBAR LAYOUT -->
+        <div class="app-wrapper">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <a href="/" class="sidebar-brand">
+                        <i class="bi bi-camera-reels-fill"></i>
+                        <span>RentalGear</span>
+                    </a>
+                </div>
+
+                <div class="sidebar-user">
+                    <div class="user-avatar">@User.Identity.Name?[0].ToString().ToUpper()</div>
+                    <div class="user-info">
+                        <span class="user-name">@User.Identity.Name</span>
+                        <span class="user-role">@(User.IsInRole("Admin") ? "Administrator" : "Klient")</span>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <div class="nav-section">
+                        <div class="nav-section-title">Menu</div>
+                        <a href="/" class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">
+                            <i class="bi bi-house"></i><span>Strona główna</span>
+                        </a>
+                        <a asp-controller="Katalog" asp-action="Index" class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Katalog" ? "active" : "")">
+                            <i class="bi bi-grid"></i><span>Katalog sprzętu</span>
+                        </a>
+                        <a asp-controller="Wypozyczenia" asp-action="Index" class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Wypozyczenia" ? "active" : "")">
+                            <i class="bi bi-calendar-check"></i><span>Moje wypożyczenia</span>
+                        </a>
+                        <a asp-controller="Koszyk" asp-action="Index" class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Koszyk" ? "active" : "")">
+                            <i class="bi bi-cart3"></i><span>Koszyk</span>
+                            <span class="badge bg-primary" id="koszykBadge">0</span>
+                        </a>
+                    </div>
+
+                    <div class="nav-section">
+                        <div class="nav-section-title">Kategorie</div>
+                        <a asp-controller="Katalog" asp-action="Kategoria" asp-route-id="1" class="nav-item">
+                            <i class="bi bi-camera-video-fill"></i><span>Kamery</span>
+                        </a>
+                        <a asp-controller="Katalog" asp-action="Kategoria" asp-route-id="2" class="nav-item">
+                            <i class="bi bi-camera-fill"></i><span>Aparaty</span>
+                        </a>
+                        <a asp-controller="Katalog" asp-action="Kategoria" asp-route-id="3" class="nav-item">
+                            <i class="bi bi-circle"></i><span>Obiektywy</span>
+                        </a>
+                        <a asp-controller="Katalog" asp-action="Kategoria" asp-route-id="4" class="nav-item">
+                            <i class="bi bi-lightbulb-fill"></i><span>Oświetlenie</span>
+                        </a>
+                        <a asp-controller="Katalog" asp-action="Kategoria" asp-route-id="5" class="nav-item">
+                            <i class="bi bi-easel-fill"></i><span>Statywy i Gimble</span>
+                        </a>
+                        <a asp-controller="Katalog" asp-action="Kategoria" asp-route-id="6" class="nav-item">
+                            <i class="bi bi-mic-fill"></i><span>Audio</span>
+                        </a>
+                        <a asp-controller="Katalog" asp-action="Kategoria" asp-route-id="7" class="nav-item">
+                            <i class="bi bi-airplane-fill"></i><span>Drony</span>
+                        </a>
+                        <a asp-controller="Katalog" asp-action="Kategoria" asp-route-id="8" class="nav-item">
+                            <i class="bi bi-bag-fill"></i><span>Akcesoria</span>
+                        </a>
+                    </div>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="nav-section">
+                            <div class="nav-section-title">Administracja</div>
+                            <a asp-controller="Admin" asp-action="Index" class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Admin" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">
+                                <i class="bi bi-speedometer2"></i><span>Dashboard</span>
+                            </a>
+                            <a asp-controller="Admin" asp-action="Zamowienia" class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Zamowienia" || ViewContext.RouteData.Values["action"]?.ToString() == "ZamowienieSzczegoly" ? "active" : "")">
+                                <i class="bi bi-clipboard-check"></i><span>Zamówienia</span>
+                            </a>
+                            <a asp-controller="Admin" asp-action="Sprzet" class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Sprzet" || ViewContext.RouteData.Values["action"]?.ToString() == "DodajSprzet" || ViewContext.RouteData.Values["action"]?.ToString() == "EdytujSprzet" ? "active" : "")">
+                                <i class="bi bi-box-seam"></i><span>Sprzęt</span>
+                            </a>
+                            <a asp-controller="Admin" asp-action="Kategorie" class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Kategorie" || ViewContext.RouteData.Values["action"]?.ToString() == "DodajKategorie" || ViewContext.RouteData.Values["action"]?.ToString() == "EdytujKategorie" ? "active" : "")">
+                                <i class="bi bi-tags"></i><span>Kategorie</span>
+                            </a>
+                            <a asp-controller="Admin" asp-action="Kalendarz" class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Kalendarz" ? "active" : "")">
+                                <i class="bi bi-calendar3"></i><span>Kalendarz</span>
+                            </a>
+                            <a asp-controller="Admin" asp-action="Uzytkownicy" class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Uzytkownicy" ? "active" : "")">
+                                <i class="bi bi-people"></i><span>Użytkownicy</span>
+                            </a>
+                            <a asp-controller="Admin" asp-action="Raporty" class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Raporty" ? "active" : "")">
+                                <i class="bi bi-graph-up"></i><span>Raporty</span>
+                            </a>
+                            <a asp-controller="Admin" asp-action="Ustawienia" class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Ustawienia" ? "active" : "")">
+                                <i class="bi bi-gear"></i><span>Ustawienia</span>
+                            </a>
+                        </div>
+                    }
+
+                    <div class="nav-section">
+                        <div class="nav-section-title">Pomoc</div>
+                        <a asp-controller="Home" asp-action="JakToDziala" class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "JakToDziala" ? "active" : "")">
+                            <i class="bi bi-info-circle"></i><span>Jak to działa?</span>
+                        </a>
+                        <a asp-controller="Home" asp-action="FAQ" class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "FAQ" ? "active" : "")">
+                            <i class="bi bi-question-circle"></i><span>FAQ</span>
+                        </a>
+                        <a asp-controller="Home" asp-action="Kontakt" class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Kontakt" ? "active" : "")">
+                            <i class="bi bi-envelope"></i><span>Kontakt</span>
+                        </a>
+                        <a asp-controller="Home" asp-action="Regulamin" class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Regulamin" ? "active" : "")">
+                            <i class="bi bi-file-text"></i><span>Regulamin</span>
+                        </a>
+                    </div>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <form asp-controller="Konto" asp-action="Wyloguj" method="post">
+                        <button type="submit" class="nav-item logout-btn">
+                            <i class="bi bi-box-arrow-right"></i><span>Wyloguj się</span>
+                        </button>
+                    </form>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <header class="top-bar">
+                    <button class="btn btn-link d-lg-none mobile-menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('show')">
+                        <i class="bi bi-list fs-4"></i>
+                    </button>
+                    <div class="search-box">
+                        <form asp-controller="Katalog" asp-action="Index" method="get">
+                            <i class="bi bi-search"></i>
+                            <input type="text" name="szukaj" placeholder="Szukaj sprzętu...">
+                        </form>
+                    </div>
+                    <div class="top-bar-actions">
+                        <a asp-controller="Koszyk" asp-action="Index" class="action-btn position-relative">
+                            <i class="bi bi-cart3"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartBadge" style="font-size:0.6rem">0</span>
+                        </a>
+                        <div class="dropdown">
+                            <button class="user-menu" data-bs-toggle="dropdown">
+                                <span class="d-none d-md-inline">@User.Identity.Name</span>
+                                <i class="bi bi-chevron-down"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><h6 class="dropdown-header">@User.Identity.Name</h6></li>
+                                <li><a class="dropdown-item" asp-controller="Wypozyczenia" asp-action="Index"><i class="bi bi-calendar-check me-2"></i>Moje wypożyczenia</a></li>
+                                <li><a class="dropdown-item" asp-controller="Koszyk" asp-action="Index"><i class="bi bi-cart3 me-2"></i>Koszyk</a></li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="Index"><i class="bi bi-speedometer2 me-2"></i>Panel Admin</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="Ustawienia"><i class="bi bi-gear me-2"></i>Ustawienia</a></li>
+                                }
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form asp-controller="Konto" asp-action="Wyloguj" method="post">
+                                        <button type="submit" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Wyloguj</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="content-area">
+                    @if (TempData["Sukces"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle me-2"></i>@TempData["Sukces"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    @if (TempData["Blad"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-circle me-2"></i>@TempData["Blad"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    @RenderBody()
+                </div>
+            </main>
+        </div>
+    }
+    else
+    {
+        <!-- NIEZALOGOWANY UŻYTKOWNIK - GUEST LAYOUT Z NAVBAR -->
+        <div class="guest-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-dark guest-navbar">
+                <div class="container">
+                    <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+                        <i class="bi bi-camera-reels-fill" style="font-size:1.5rem"></i>
+                        <span class="fw-bold">RentalGear</span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#guestNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="guestNav">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/"><i class="bi bi-house me-1"></i>Strona główna</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Katalog" asp-action="Index"><i class="bi bi-grid me-1"></i>Katalog</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="bi bi-tags me-1"></i>Kategorie</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Katalog" asp-action="Kategoria" asp-route-id="1"><i class="bi bi-camera-video-fill me-2"></i>Kamery</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Katalog" asp-action="Kategoria" asp-route-id="2"><i class="bi bi-camera-fill me-2"></i>Aparaty</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Katalog" asp-action="Kategoria" asp-route-id="3"><i class="bi bi-circle me-2"></i>Obiektywy</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Katalog" asp-action="Kategoria" asp-route-id="4"><i class="bi bi-lightbulb-fill me-2"></i>Oświetlenie</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Katalog" asp-action="Kategoria" asp-route-id="5"><i class="bi bi-easel-fill me-2"></i>Statywy i Gimble</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Katalog" asp-action="Kategoria" asp-route-id="6"><i class="bi bi-mic-fill me-2"></i>Audio</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Katalog" asp-action="Kategoria" asp-route-id="7"><i class="bi bi-airplane-fill me-2"></i>Drony</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Katalog" asp-action="Kategoria" asp-route-id="8"><i class="bi bi-bag-fill me-2"></i>Akcesoria</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="JakToDziala"><i class="bi bi-info-circle me-1"></i>Jak to działa?</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Kontakt"><i class="bi bi-envelope me-1"></i>Kontakt</a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Konto" asp-action="Logowanie">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i>Zaloguj się
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-primary ms-2" asp-controller="Konto" asp-action="Rejestracja">
+                                    <i class="bi bi-person-plus me-1"></i>Rejestracja
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <main class="guest-content">
+                <div class="container py-4">
+                    @if (TempData["Sukces"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle me-2"></i>@TempData["Sukces"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    @if (TempData["Blad"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-circle me-2"></i>@TempData["Blad"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    @RenderBody()
+                </div>
+            </main>
+
+            <footer class="guest-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <h5><i class="bi bi-camera-reels-fill me-2"></i>RentalGear</h5>
+                            <p class="text-secondary small">Profesjonalna wypożyczalnia sprzętu foto-video dla filmowców, fotografów i twórców.</p>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <h6>Kontakt</h6>
+                            <ul class="list-unstyled text-secondary small">
+                                <li><i class="bi bi-geo-alt me-2"></i>ul. Filmowa 15, Warszawa</li>
+                                <li><i class="bi bi-telephone me-2"></i>+48 22 123 45 67</li>
+                                <li><i class="bi bi-envelope me-2"></i>kontakt@rentalgear.pl</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <h6>Godziny otwarcia</h6>
+                            <ul class="list-unstyled text-secondary small">
+                                <li>Pon-Pt: 9:00 - 18:00</li>
+                                <li>Sob: 10:00 - 14:00</li>
+                                <li>Nd: Zamknięte</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr class="border-secondary">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center">
+                        <div class="text-secondary small">
+                            &copy; @DateTime.Now.Year RentalGear - Wypożyczalnia sprzętu foto-video
+                        </div>
+                        <div>
+                            <a asp-controller="Home" asp-action="Regulamin" class="text-secondary small me-3">Regulamin</a>
+                            <a asp-controller="Home" asp-action="FAQ" class="text-secondary small">FAQ</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    }
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

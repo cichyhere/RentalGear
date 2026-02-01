@@ -1,0 +1,73 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    var kategorie = ViewBag.Kategorie as List<Kategoria> ?? new();
+    var wyroznione = ViewBag.Wyroznione as List<Sprzet> ?? new();
+}
+
+<div class="page-header">
+    <h1 class="page-title">Witaj w RentalGear!</h1>
+    <p class="page-subtitle">Profesjonalna wypożyczalnia sprzętu foto-video</p>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-lg-3">
+        <div class="stat-card blue">
+            <div class="stat-icon blue"><i class="bi bi-camera"></i></div>
+            <div class="stat-value">@ViewBag.LiczbaSprzetu</div>
+            <div class="stat-label">Sprzętów w ofercie</div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="stat-card green">
+            <div class="stat-icon green"><i class="bi bi-grid"></i></div>
+            <div class="stat-value">@kategorie.Count</div>
+            <div class="stat-label">Kategorii</div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="stat-card orange">
+            <div class="stat-icon orange"><i class="bi bi-truck"></i></div>
+            <div class="stat-value">24h</div>
+            <div class="stat-label">Czas realizacji</div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="stat-card purple">
+            <div class="stat-icon purple"><i class="bi bi-headset"></i></div>
+            <div class="stat-value">24/7</div>
+            <div class="stat-label">Wsparcie</div>
+        </div>
+    </div>
+</div>
+
+@if (wyroznione.Any())
+{
+    <h4 class="mb-3">Wyróżniony sprzęt</h4>
+    <div class="row g-4">
+        @foreach (var s in wyroznione)
+        {
+            <div class="col-md-6 col-lg-3">
+                <div class="product-card">
+                    <div class="product-image">
+                        @if (!string.IsNullOrEmpty(s.ZdjecieUrl))
+                        {
+                            <img src="@s.ZdjecieUrl" alt="@s.Nazwa">
+                        }
+                        else
+                        {
+                            <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-camera" style="font-size:3rem;color:var(--text-secondary)"></i></div>
+                        }
+                    </div>
+                    <div class="product-body">
+                        <div class="product-brand">@s.Producent</div>
+                        <div class="product-name">@s.Nazwa</div>
+                        <div class="product-price">@s.CenaDzien zł/dzień</div>
+                    </div>
+                    <div class="product-footer">
+                        <a asp-controller="Katalog" asp-action="Szczegoly" asp-route-id="@s.Id" class="btn btn-outline-primary btn-sm w-100">Zobacz</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

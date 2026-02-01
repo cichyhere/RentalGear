@@ -1,0 +1,161 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = RentalGear
+build_property.RootNamespace = RentalGear
+build_property.ProjectDir = C:\Users\cinek\RiderProjects\RentalGear\RentalGear\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\cinek\RiderProjects\RentalGear\RentalGear
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Admin/DodajKategorie.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRG9kYWpLYXRlZ29yaWUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Admin/DodajSprzet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRG9kYWpTcHJ6ZXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Admin/EdytujKategorie.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWR5dHVqS2F0ZWdvcmllLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Admin/EdytujSprzet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWR5dHVqU3ByemV0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Admin/Kalendarz.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cS2FsZW5kYXJ6LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Admin/Kategorie.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cS2F0ZWdvcmllLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Admin/Raporty.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUmFwb3J0eS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Admin/Sprzet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU3ByemV0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Admin/Ustawienia.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXN0YXdpZW5pYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Admin/Uzytkownicy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXp5dGtvd25pY3kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Admin/Zamowienia.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cWmFtb3dpZW5pYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Admin/ZamowienieSzczegoly.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cWmFtb3dpZW5pZVN6Y3plZ29seS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Home/FAQ.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxGQVEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Home/JakToDziala.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxKYWtUb0R6aWFsYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Home/Kontakt.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxLb250YWt0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Home/Regulamin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWd1bGFtaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Katalog/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2F0YWxvZ1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Katalog/Kalendarz.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2F0YWxvZ1xLYWxlbmRhcnouY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Katalog/Kategoria.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2F0YWxvZ1xLYXRlZ29yaWEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Katalog/Szczegoly.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2F0YWxvZ1xTemN6ZWdvbHkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Konto/Logowanie.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29udG9cTG9nb3dhbmllLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Konto/Rejestracja.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29udG9cUmVqZXN0cmFjamEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Koszyk/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29zenlrXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Koszyk/Zamowienie.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS29zenlrXFphbW93aWVuaWUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Wypozyczenia/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV3lwb3p5Y3plbmlhXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Wypozyczenia/Szczegoly.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV3lwb3p5Y3plbmlhXFN6Y3plZ29seS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cinek/RiderProjects/RentalGear/RentalGear/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-zzns7cl0ct

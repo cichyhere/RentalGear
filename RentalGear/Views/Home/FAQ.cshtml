@@ -1,0 +1,72 @@
+@{ ViewData["Title"] = "FAQ"; }
+
+<div class="page-header">
+    <h1 class="page-title"><i class="bi bi-question-circle me-2"></i>Często zadawane pytania</h1>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item" style="background:var(--bg-secondary);border-color:var(--border-color)">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" style="background:var(--bg-tertiary);color:var(--text-primary)">
+                        Jak mogę wypożyczyć sprzęt?
+                    </button>
+                </h2>
+                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="color:var(--text-secondary)">
+                        Aby wypożyczyć sprzęt, musisz założyć konto, dodać wybrane produkty do koszyka, wybrać termin wypożyczenia i złożyć zamówienie. Po potwierdzeniu przez nas możesz odebrać sprzęt osobiście lub zamówić dostawę.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" style="background:var(--bg-secondary);border-color:var(--border-color)">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" style="background:var(--bg-tertiary);color:var(--text-primary)">
+                        Jaka jest minimalna długość wypożyczenia?
+                    </button>
+                </h2>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="color:var(--text-secondary)">
+                        Minimalna długość wypożyczenia to 1 dzień. Oferujemy również rabaty przy dłuższych wypożyczeniach - tygodniowych i miesięcznych.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" style="background:var(--bg-secondary);border-color:var(--border-color)">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" style="background:var(--bg-tertiary);color:var(--text-primary)">
+                        Czy muszę wpłacać kaucję?
+                    </button>
+                </h2>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="color:var(--text-secondary)">
+                        Tak, przy odbiorze sprzętu pobieramy kaucję. Jej wysokość zależy od wartości wypożyczanego sprzętu. Kaucja jest zwracana w całości po zwrocie sprzętu w nienaruszonym stanie.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" style="background:var(--bg-secondary);border-color:var(--border-color)">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" style="background:var(--bg-tertiary);color:var(--text-primary)">
+                        Co jeśli sprzęt ulegnie uszkodzeniu?
+                    </button>
+                </h2>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="color:var(--text-secondary)">
+                        W przypadku uszkodzenia sprzętu z winy klienta, koszty naprawy są potrącane z kaucji. Zalecamy wykupienie ubezpieczenia przy większych wypożyczeniach.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" style="background:var(--bg-secondary);border-color:var(--border-color)">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" style="background:var(--bg-tertiary);color:var(--text-primary)">
+                        Czy oferujecie dostawę?
+                    </button>
+                </h2>
+                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body" style="color:var(--text-secondary)">
+                        Tak, oferujemy dostawę na terenie Warszawy i okolic. Koszt dostawy zależy od lokalizacji. Szczegóły ustalamy indywidualnie.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+@model Kategoria
+@{ ViewData["Title"] = "Dodaj kategorię"; }
+
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb" style="--bs-breadcrumb-divider-color:var(--text-secondary)">
+        <li class="breadcrumb-item"><a asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-action="Kategorie">Kategorie</a></li>
+        <li class="breadcrumb-item active">Dodaj</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header" style="background:var(--accent-blue);color:#fff">
+                <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Dodaj kategorię</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="DodajKategorie" method="post">
+                    <div class="mb-3">
+                        <label asp-for="Nazwa" class="form-label"></label>
+                        <input asp-for="Nazwa" class="form-control">
+                        <span asp-validation-for="Nazwa" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Ikona" class="form-label"></label>
+                        <input asp-for="Ikona" class="form-control" placeholder="np. bi-camera-fill">
+                        <small class="text-secondary">Ikony z <a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a></small>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Opis" class="form-label"></label>
+                        <textarea asp-for="Opis" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input asp-for="Aktywna" class="form-check-input" checked>
+                            <label asp-for="Aktywna" class="form-check-label"></label>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i>Dodaj</button>
+                        <a asp-action="Kategorie" class="btn btn-outline-secondary">Anuluj</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

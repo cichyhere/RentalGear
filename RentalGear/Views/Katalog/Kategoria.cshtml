@@ -1,0 +1,38 @@
+@model List<Sprzet>
+@{
+    var kat = ViewBag.Kategoria as Kategoria;
+    ViewData["Title"] = kat?.Nazwa ?? "Kategoria";
+}
+
+<div class="page-header">
+    <h1 class="page-title"><i class="bi @kat?.Ikona me-2"></i>@kat?.Nazwa</h1>
+    <p class="page-subtitle">@Model.Count sprzętów</p>
+</div>
+
+@if (Model.Any())
+{
+    <div class="row g-4">
+        @foreach (var s in Model)
+        {
+            <div class="col-md-6 col-lg-3">
+                <div class="product-card">
+                    <div class="product-image">
+                        @if (!string.IsNullOrEmpty(s.ZdjecieUrl)) { <img src="@s.ZdjecieUrl"> }
+                    </div>
+                    <div class="product-body">
+                        <div class="product-brand">@s.Producent</div>
+                        <div class="product-name">@s.Nazwa</div>
+                        <div class="product-price">@s.CenaDzien zł/dzień</div>
+                    </div>
+                    <div class="product-footer">
+                        <a asp-action="Szczegoly" asp-route-id="@s.Id" class="btn btn-outline-primary btn-sm w-100">Szczegóły</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="empty-state"><i class="bi bi-inbox"></i><h4>Brak sprzętu</h4></div>
+}

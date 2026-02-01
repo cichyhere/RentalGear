@@ -1,0 +1,39 @@
+@model List<AppUser>
+@{
+    ViewData["Title"] = "Użytkownicy";
+    var roles = ViewBag.Roles as Dictionary<string, IList<string>> ?? new();
+}
+
+<div class="page-header d-flex justify-content-between align-items-center">
+    <h1 class="page-title"><i class="bi bi-people me-2"></i>Użytkownicy</h1>
+    <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Dashboard</a>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table mb-0">
+            <thead><tr><th>Użytkownik</th><th>Email</th><th>Firma</th><th>Rola</th><th>Status</th><th>Data rejestracji</th></tr></thead>
+            <tbody>
+                @foreach (var u in Model)
+                {
+                    var userRoles = roles.ContainsKey(u.Id) ? roles[u.Id] : new List<string>();
+                    var isAdmin = userRoles.Contains("Admin");
+                    <tr class="@(!u.Aktywny ? "opacity-50" : "")">
+                        <td><strong>@u.PelnaNazwa</strong></td>
+                        <td>@u.Email</td>
+                        <td>@(u.Firma ?? "-")</td>
+                        <td>
+                            @if (isAdmin) { <span class="badge bg-danger">Admin</span> }
+                            else { <span class="badge bg-primary">Klient</span> }
+                        </td>
+                        <td>
+                            @if (u.Aktywny) { <span class="badge bg-success">Aktywny</span> }
+                            else { <span class="badge bg-secondary">Nieaktywny</span> }
+                        </td>
+                        <td>@u.DataRejestracji.ToString("dd.MM.yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

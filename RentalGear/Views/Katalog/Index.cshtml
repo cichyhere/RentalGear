@@ -1,0 +1,88 @@
+@model List<Sprzet>
+@{
+    ViewData["Title"] = "Katalog";
+    var kategorie = ViewBag.Kategorie as List<Kategoria> ?? new();
+    var aktKat = ViewBag.AktualnaKategoria as Kategoria;
+}
+
+<div class="page-header">
+    <h1 class="page-title">@(aktKat?.Nazwa ?? "Katalog sprzętu")</h1>
+    <p class="page-subtitle">@Model.Count sprzętów</p>
+</div>
+
+<div class="row">
+    <div class="col-lg-3 mb-4">
+        <div class="card">
+            <div class="card-header">Filtry</div>
+            <div class="card-body">
+                <form method="get">
+                    <div class="mb-3">
+                        <input type="text" name="szukaj" value="@ViewBag.Szukaj" class="form-control" placeholder="Szukaj...">
+                    </div>
+                    <div class="mb-3">
+                        <select name="kategoriaId" class="form-select">
+                            <option value="">Wszystkie</option>
+                            @foreach (var k in kategorie)
+                            {
+                                <option value="@k.Id" selected="@(ViewBag.KategoriaId != null && (int)ViewBag.KategoriaId == k.Id)">@k.Nazwa</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <select name="sortowanie" class="form-select">
+                            <option value="">Domyślne</option>
+                            <option value="cena_asc" selected="@(ViewBag.Sortowanie == "cena_asc")">Cena rosnąco</option>
+                            <option value="cena_desc" selected="@(ViewBag.Sortowanie == "cena_desc")">Cena malejąco</option>
+                            <option value="nazwa" selected="@(ViewBag.Sortowanie == "nazwa")">Nazwa A-Z</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Filtruj</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9">
+        @if (Model.Any())
+        {
+            <div class="row g-4">
+                @foreach (var s in Model)
+                {
+                    <div class="col-md-6 col-xl-4">
+                        <div class="product-card">
+                            <div class="product-image">
+                                @if (!string.IsNullOrEmpty(s.ZdjecieUrl))
+                                { <img src="@s.ZdjecieUrl" alt="@s.Nazwa"> }
+                                else
+                                { <div class="d-flex align-items-center justify-content-center h-100"><i class="bi bi-camera" style="font-size:3rem;color:var(--text-secondary)"></i></div> }
+                            </div>
+                            <div class="product-body">
+                                <div class="product-brand">@s.Producent</div>
+                                <div class="product-name">@s.Nazwa</div>
+                                <span class="badge bg-secondary mb-2">@s.Kategoria?.Nazwa</span>
+                                <div class="product-price">@s.CenaDzien zł/dzień</div>
+                            </div>
+                            <div class="product-footer d-flex gap-2">
+                                <a asp-action="Szczegoly" asp-route-id="@s.Id" class="btn btn-outline-primary btn-sm flex-fill">Szczegóły</a>
+                                @if (User.Identity!.IsAuthenticated && s.IloscDostepna > 0)
+                                {
+                                    <form asp-controller="Koszyk" asp-action="Dodaj" method="post">
+                                        <input type="hidden" name="id" value="@s.Id">
+                                        <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-cart-plus"></i></button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="bi bi-inbox"></i>
+                <h4>Brak sprzętu</h4>
+                <p>Spróbuj zmienić filtry</p>
+            </div>
+        }
+    </div>
+</div>

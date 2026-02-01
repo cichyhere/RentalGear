@@ -1,0 +1,96 @@
+@model List<Wypozyczenie>
+@{ ViewData["Title"] = "Zarządzanie zamówieniami"; }
+
+<div class="page-header d-flex justify-content-between align-items-center">
+    <div>
+        <h1 class="page-title"><i class="bi bi-clipboard-check me-2"></i>Zamówienia</h1>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Dashboard</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body py-2">
+        <form method="get" class="d-flex gap-2 align-items-center flex-wrap">
+            <span class="text-secondary">Status:</span>
+            <a asp-action="Zamowienia" class="btn btn-sm @(ViewBag.Status == null ? "btn-primary" : "btn-outline-secondary")">Wszystkie</a>
+            <a asp-action="Zamowienia" asp-route-status="0" class="btn btn-sm @(ViewBag.Status != null && (int)ViewBag.Status == 0 ? "btn-warning" : "btn-outline-warning")">Oczekujące</a>
+            <a asp-action="Zamowienia" asp-route-status="1" class="btn btn-sm @(ViewBag.Status != null && (int)ViewBag.Status == 1 ? "btn-info" : "btn-outline-info")">Potwierdzone</a>
+            <a asp-action="Zamowienia" asp-route-status="2" class="btn btn-sm @(ViewBag.Status != null && (int)ViewBag.Status == 2 ? "btn-primary" : "btn-outline-primary")">W trakcie</a>
+            <a asp-action="Zamowienia" asp-route-status="3" class="btn btn-sm @(ViewBag.Status != null && (int)ViewBag.Status == 3 ? "btn-success" : "btn-outline-success")">Zakończone</a>
+            <a asp-action="Zamowienia" asp-route-status="4" class="btn btn-sm @(ViewBag.Status != null && (int)ViewBag.Status == 4 ? "btn-secondary" : "btn-outline-secondary")">Anulowane</a>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table mb-0">
+                <thead><tr><th>ID</th><th>Klient</th><th>Termin</th><th>Pozycje</th><th>Kwota</th><th>Status</th><th>Akcje</th></tr></thead>
+                <tbody>
+                    @foreach (var w in Model)
+                    {
+                        var badgeClass = w.Status switch
+                        {
+                            StatusWypozyczenia.Oczekujace => "bg-warning text-dark",
+                            StatusWypozyczenia.Potwierdzone => "bg-info",
+                            StatusWypozyczenia.WTrakcie => "bg-primary",
+                            StatusWypozyczenia.Zakonczone => "bg-success",
+                            StatusWypozyczenia.Anulowane => "bg-secondary",
+                            StatusWypozyczenia.Odrzucone => "bg-danger",
+                            _ => "bg-secondary"
+                        };
+                        <tr>
+                            <td>#@w.Id</td>
+                            <td>@w.Uzytkownik?.PelnaNazwa<br><small class="text-secondary">@w.Uzytkownik?.Email</small></td>
+                            <td>@w.DataOd.ToString("dd.MM") - @w.DataDo.ToString("dd.MM.yyyy")<br><small class="text-secondary">(@w.LiczbaDni dni)</small></td>
+                            <td>@w.Pozycje.Count</td>
+                            <td>@w.KosztCalkowity.ToString("N0") zł</td>
+                            <td><span class="badge @badgeClass">@w.Status</span></td>
+                            <td>
+                                @if (w.Status == StatusWypozyczenia.Oczekujace)
+                                {
+                                    <form asp-action="ZmienStatus" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@w.Id">
+                                        <input type="hidden" name="status" value="@StatusWypozyczenia.Potwierdzone">
+                                        <button type="submit" class="btn btn-success btn-sm" title="Potwierdź"><i class="bi bi-check"></i></button>
+                                    </form>
+                                    <form asp-action="ZmienStatus" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@w.Id">
+                                        <input type="hidden" name="status" value="@StatusWypozyczenia.Odrzucone">
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Odrzuć"><i class="bi bi-x"></i></button>
+                                    </form>
+                                }
+                                @if (w.Status == StatusWypozyczenia.Potwierdzone)
+                                {
+                                    <form asp-action="ZmienStatus" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@w.Id">
+                                        <input type="hidden" name="status" value="@StatusWypozyczenia.WTrakcie">
+                                        <button type="submit" class="btn btn-primary btn-sm" title="Wydaj"><i class="bi bi-box-seam"></i></button>
+                                    </form>
+                                }
+                                @if (w.Status == StatusWypozyczenia.WTrakcie)
+                                {
+                                    <form asp-action="ZmienStatus" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@w.Id">
+                                        <input type="hidden" name="status" value="@StatusWypozyczenia.Zakonczone">
+                                        <button type="submit" class="btn btn-success btn-sm" title="Zakończ"><i class="bi bi-check-circle"></i></button>
+                                    </form>
+                                }
+                                <a asp-action="ZamowienieSzczegoly" asp-route-id="@w.Id" class="btn btn-outline-primary btn-sm"><i class="bi bi-eye"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="card-body text-center py-5">
+            <i class="bi bi-inbox text-secondary" style="font-size:4rem"></i>
+            <p class="mt-3">Brak zamówień</p>
+        </div>
+    }
+</div>
